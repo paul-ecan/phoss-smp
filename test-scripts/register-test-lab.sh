@@ -31,6 +31,7 @@ ORDER_PROCESS="urn:fdc:peppol.eu:2017:poacc:ordering:01:1.0"
 PARTICIPANTS=(
   "iso6523-actorid-upis::0088:1111111111111"
   "iso6523-actorid-upis::0088:2222222222222"
+  "iso6523-actorid-upis::0088:3333333333333"
 )
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
