@@ -25,6 +25,10 @@ INVOICE_PROCESS="urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
 ORDER_DOCTYPE="urn:oasis:names:specification:ubl:schema:xsd:Order-2::Order##urn:fdc:peppol.eu:2017:poacc:ordering:01:1.0::2.1"
 ORDER_PROCESS="urn:fdc:peppol.eu:2017:poacc:ordering:01:1.0"
 
+TSR_DOCTYPE="urn:fdc:peppol:transaction-statistics-report:1.0::TransactionStatisticsReport##urn:fdc:peppol.eu:edec:trns:transaction-statistics-reporting:1.0::1.0"
+EUSR_DOCTYPE="urn:fdc:peppol:end-user-statistics-report:1.1::EndUserStatisticsReport##urn:fdc:peppol.eu:edec:trns:end-user-statistics-report:1.1::1.1"
+REPORTING_PROCESS="urn:fdc:peppol.eu:edec:bis:reporting:1.0"
+
 # ── Participants ──────────────────────────────────────────────────────────────
 # Add or remove entries in the format "scheme::value"
 
@@ -120,5 +124,14 @@ for PARTICIPANT in "${PARTICIPANTS[@]}"; do
   put_service_metadata "$SCHEME" "$VALUE" "$ORDER_DOCTYPE"   "$ORDER_PROCESS"   "$CERT_B64"
   echo ""
 done
+
+# ── Offline OpenPeppol reporting receiver ─────────────────────────────────────
+# Routes TSR/EUSR report submissions back to the AP's own AS4 endpoint so the
+# monthly reporting scheduler works without a real OpenPeppol connection.
+echo "Registering offline reporting receiver (iso6523-actorid-upis::9915:helger)..."
+put_service_group "iso6523-actorid-upis" "9915:helger"
+put_service_metadata "iso6523-actorid-upis" "9915:helger" "$TSR_DOCTYPE"  "$REPORTING_PROCESS" "$CERT_B64"
+put_service_metadata "iso6523-actorid-upis" "9915:helger" "$EUSR_DOCTYPE" "$REPORTING_PROCESS" "$CERT_B64"
+echo ""
 
 echo "Done."
