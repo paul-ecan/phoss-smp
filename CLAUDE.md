@@ -8,6 +8,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Current version: `8.1.4`. License: MPL 2.0 + Apache 2.0.
 
+## Docker (Test Lab)
+
+```bash
+# Build image and start (from phoss-smp/)
+mvn clean install -DskipTests
+docker compose build
+docker compose up -d
+
+# Logs
+docker compose logs -f phoss-smp
+```
+
+The `docker-compose.yaml` runs Tomcat 10 + PostgreSQL 18. Key mounts:
+- `./config/application.properties` → `/config/application.properties` (loaded via `-Dconfig.file`)
+- `../phoss-ap/certs/` → `/var/phoss-smp/certs/` (test SMP cert `test-smp.p12`, password: `peppol`, alias: `smp-test-key`)
+
+The SMP cert is signed by the shared test CA in `phoss-ap/certs/`. To add `jdbc.schema-create=true` was needed for PostgreSQL to auto-create the `smp` schema on first boot.
+
+Management UI: http://localhost:8880/secure/ — default login: `admin@helger.com` / `password`
+
 ## Build Commands
 
 ```bash

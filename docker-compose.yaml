@@ -1,0 +1,44 @@
+services:
+  smp-postgres:
+    image: postgres:18-trixie
+    restart: unless-stopped
+    ports:
+      - "55433:5432"
+    environment:
+      POSTGRES_DB: smp
+      POSTGRES_USER: peppol
+      POSTGRES_PASSWORD: peppol
+    volumes:
+      - smp-pg-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U peppol -d smp"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  phoss-smp:
+    image: ecan/phoss-smp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8880:8080"
+    networks:
+      - default
+      - peppol-lab
+    volumes:
+      - smp-data:/var/phoss-smp/data
+      - ./config:/config:ro
+      - ../phoss-ap/certs:/var/phoss-smp/certs:ro
+    depends_on:
+      smp-postgres:
+        condition: service_healthy
+
+volumes:
+  smp-pg-data:
+  smp-data:
+
+networks:
+  peppol-lab:
+    external: true
