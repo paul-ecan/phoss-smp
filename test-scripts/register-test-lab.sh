@@ -134,4 +134,15 @@ put_service_metadata "iso6523-actorid-upis" "9915:helger" "$TSR_DOCTYPE"  "$REPO
 put_service_metadata "iso6523-actorid-upis" "9915:helger" "$EUSR_DOCTYPE" "$REPORTING_PROCESS" "$CERT_B64"
 echo ""
 
+# ── MLS (Message Level Status) receiver ──────────────────────────────────────
+# Routes MLS ApplicationResponse messages back to the AP's own AS4 endpoint.
+# The AP's SPID (0242:000306) is derived from the Peppol Seat ID POP000306.
+MLS_DOCTYPE="urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2::ApplicationResponse##urn:peppol:edec:mls:1.0::2.1"
+MLS_PROCESS="urn:peppol:edec:mls"
+
+echo "Registering MLS receiver (iso6523-actorid-upis::0242:000306)..."
+put_service_group "iso6523-actorid-upis" "0242:000306"
+put_service_metadata "iso6523-actorid-upis" "0242:000306" "$MLS_DOCTYPE" "$MLS_PROCESS" "$CERT_B64"
+echo ""
+
 echo "Done."
