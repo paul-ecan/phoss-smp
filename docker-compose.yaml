@@ -22,8 +22,6 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    ports:
-      - "8880:8080"
     networks:
       - default
       - peppol-lab
@@ -34,6 +32,18 @@ services:
     depends_on:
       smp-postgres:
         condition: service_healthy
+
+  caddy:
+    image: caddy:alpine
+    restart: unless-stopped
+    ports:
+      - "8880:80"
+      - "8843:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../phoss-ap/certs:/var/certs:ro
+    depends_on:
+      - phoss-smp
 
 volumes:
   smp-pg-data:

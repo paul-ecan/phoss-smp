@@ -1,0 +1,12 @@
+:443 {
+	tls /var/certs/test-smp.crt /var/certs/test-smp.key
+	reverse_proxy phoss-smp:8080
+}
+
+:80 {
+	# Redirect browser navigation to HTTPS; pass API writes through directly
+	# so register-test-lab.sh PUT/DELETE requests work without -L -k.
+	@browser method GET HEAD
+	redir @browser https://{host}:8843{uri} permanent
+	reverse_proxy phoss-smp:8080
+}
