@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPattern": "/sml/managesmp"
+  },
+  "response": {
+    "status": 200,
+    "headers": {"Content-Type": "text/xml; charset=utf-8"},
+    "body": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><createSignedServiceMetadataResponse xmlns=\"http://busdox.org/serviceMetadata/manageSMP/1.0/\"/></soap:Body></soap:Envelope>"
+  }
+}

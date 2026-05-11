@@ -29,9 +29,21 @@ services:
       - smp-data:/var/phoss-smp/data
       - ./config:/config:ro
       - ../phoss-ap/certs:/var/phoss-smp/certs:ro
+      - ./db/V100__TestLabSMLInfo.sql:/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/db/migrate-postgresql/V100__TestLabSMLInfo.sql:ro
     depends_on:
       smp-postgres:
         condition: service_healthy
+
+  wiremock:
+    image: wiremock/wiremock:latest
+    restart: unless-stopped
+    networks:
+      - default
+      - peppol-lab
+    ports:
+      - "8783:8080"
+    volumes:
+      - ./wiremock/mappings:/home/wiremock/mappings:ro
 
   caddy:
     image: caddy:alpine

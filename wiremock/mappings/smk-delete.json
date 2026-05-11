@@ -1,0 +1,12 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPattern": "/sml/manageparticipant",
+    "bodyPatterns": [{"contains": "DeleteParticipantIdentifier"}]
+  },
+  "response": {
+    "status": 200,
+    "headers": {"Content-Type": "text/xml; charset=utf-8"},
+    "body": "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\"><S:Body/></S:Envelope>"
+  }
+}
