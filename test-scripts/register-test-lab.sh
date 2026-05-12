@@ -13,7 +13,7 @@
 set -euo pipefail
 
 SMP_URL="${1:-http://localhost:8880}"
-AP_ENDPOINT="${2:-http://phoss-ap:8080/as4}"
+AP_ENDPOINT="${2:-https://caddy/as4}"
 CERT_FILE="${3:-$(dirname "$0")/../../phoss-ap/certs/test-ap.crt}"
 SMP_USER="admin@helger.com:password"
 
